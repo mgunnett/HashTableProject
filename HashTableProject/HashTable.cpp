@@ -94,8 +94,27 @@ optional<int> HashTable::get(string key) {
     return -1; // only runs if nothing was found
 }
 
+/*
+    Name: removeKey
+    Param: key
+    Returns: true if value is deleted, false if not found
+    Description: finds a key at a specific index and deletes it from the chain.
+*/
 bool HashTable::removeKey(string key) {
+    // runs key through hash function to get index
+    int index = hashKey(key);
+    
+    // finds value at index and deletes it
+    for (int i = 0; i < table[index].size(); i++) {
+        if (table[index][i].key == key) {
+            // deletes entry at position i from the chain
+            table[index].erase(table[index].begin() + i);
+            count--;
+            return true;
+        }
+    }
 
+    return false; // only returns if never found key
 }
 
 void HashTable::printTable() {
