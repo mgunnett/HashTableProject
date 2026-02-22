@@ -18,7 +18,6 @@ public:
     optional<int> get(const string& key) const;
     bool removeKey(const string& key);
     void printTable() const;
-    bool debugMode;
 
 private:
     vector<vector<Entry>> table;
@@ -37,12 +36,34 @@ int nextPrime(int num);
 void resize();
 
 
-int hashKey(int key) {
-
-}
 
 int main() {
     HashTable ht;
-    // TODO: simple menu loop or test harness
+    int loop = 1;
+    int choice;
+    
+    while (loop == 1) {
+        cout << "Please select your operation: \n";
+        cout << "1 = Put  -------- 2 = Get -------- 3 = Remove -------- 4 = Print -------- 5 = Quit\n";
+        cin >> choice;
+
+        if (choice == 1) {
+
+        }
+        else if (choice == 2) {
+
+        }
+        else if (choice == 3) {
+
+        }
+        else if (choice == 4) {
+
+        }
+        else if (choice == 5) {
+            break;
+        }
+    }
+
+    cout << "\nHope you enjoyed! :D";
     return 0;
 }
