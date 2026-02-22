@@ -14,28 +14,64 @@ struct Entry {
 class HashTable {
 public:
     HashTable(size_t capacity = 11);
-    void put(const string& key, int value);
-    optional<int> get(const string& key) const;
-    bool removeKey(const string& key);
-    void printTable() const;
+    void put(string key, int value);
+    optional<int> get(string key);
+    bool removeKey(string key);
+    void printTable();
+    bool isPrime(int num);
+    int nextPrime(int num);
+    void resize();
 
 private:
     vector<vector<Entry>> table;
     size_t count = 0;
-    size_t hashKey(const string& key) const;
+    size_t hashKey(string key);
     size_t capacity;
 };
 
-int hashKey(int key);
-void put(int key, int value);
-int get(int key);
-bool removeKey(int key);
-void printTable();
-bool isPrime(int num);
-int nextPrime(int num);
-void resize();
+// constructor for private variables
+HashTable::HashTable(size_t capacity) {
+    this->capacity = capacity;
+    this->count = 0;
+    this->table = vector<vector<Entry>>(capacity);
+}
 
+size_t HashTable::hashKey(string key) {
+    int total = 0;
+    for (int i = 0; i < key.length(); i++) {
+        char character = key[i];
+        total = (total * 31) + character;
+    }
+    return total % capacity;
+}
 
+void HashTable::put(string key, int value) {
+
+}
+
+optional<int> HashTable::get(string key) {
+
+}
+
+bool HashTable::removeKey(string key) {
+
+}
+
+void HashTable::printTable() {
+
+}
+
+bool HashTable::isPrime(int num) {
+
+}
+
+int HashTable::nextPrime(int num) {
+
+}
+
+void HashTable::resize() {
+
+}
 
 int main() {
     HashTable ht;
