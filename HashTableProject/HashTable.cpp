@@ -117,8 +117,24 @@ bool HashTable::removeKey(string key) {
     return false; // only returns if never found key
 }
 
+/*
+    Name: printTable
+    Param: N/A
+    Returns: N/A
+    Description: Uses two nested loops to print the hashtable
+*/
 void HashTable::printTable() {
-
+    // goes through every slot
+    for (int i = 0; i <= capacity - 1; i++) {
+        // check to make sure table isn't empty 
+        if (!table[i].empty()) {
+            cout << "Index " << i << "\n";
+            // goes through the chain
+            for (int j = 0; j < table[i].size(); j++) {
+                cout << table[i][j].key << " --> " << table[i][j].value << "\n";
+            }
+        }
+    }
 }
 
 bool HashTable::isPrime(int num) {
