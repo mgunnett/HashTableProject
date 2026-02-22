@@ -74,8 +74,24 @@ void HashTable::put(string key, int value) {
     }
 }
 
+/*
+    Name: get
+    Param: key
+    Returns: value of found key, -1 if not found
+    Description: Looks up a key in the hashtable and returns it's value
+*/
 optional<int> HashTable::get(string key) {
+    // runs key through hash function to get index
+    int index = hashKey(key);
 
+    // checks to see if the key already exists
+    for (int i = 0; i < table[index].size(); i++) {
+        if (table[index][i].key == key) {
+            return table[index][i].value;
+        }
+    }
+
+    return -1; // only runs if nothing was found
 }
 
 bool HashTable::removeKey(string key) {
