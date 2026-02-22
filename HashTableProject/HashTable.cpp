@@ -27,6 +27,20 @@ private:
     size_t capacity;
 };
 
+int hashKey(int key);
+void put(int key, int value);
+int get(int key);
+bool removeKey(int key);
+void printTable();
+bool isPrime(int num);
+int nextPrime(int num);
+void resize();
+
+
+int hashKey(int key) {
+
+}
+
 int main() {
     HashTable ht;
     // TODO: simple menu loop or test harness
