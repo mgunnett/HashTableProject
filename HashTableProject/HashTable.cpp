@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <optional>
 #include <cmath>
 
 using namespace std;
@@ -15,7 +14,7 @@ class HashTable {
 public:
     HashTable(size_t capacity = 11);
     void put(string key, int value);
-    optional<int> get(string key);
+    int getValue(string key);
     bool removeKey(string key);
     void printTable();
     bool isPrime(int num);
@@ -75,13 +74,13 @@ void HashTable::put(string key, int value) {
 }
 
 /*
-    Name: get
+    Name: getValue
     Param: key
     Returns: value of found key, -1 if not found
     Description: Looks up a key in the hashtable and returns it's value
 */
-optional<int> HashTable::get(string key) {
-    // runs key through hash function to get index
+int HashTable::getValue(string key) {
+    // runs key through hash function to getValue index
     int index = hashKey(key);
 
     // checks to see if the key already exists
@@ -154,11 +153,9 @@ bool HashTable::isPrime(int num) {
         if (num % i == 0) {
             return false;
         }
-        // no divisors found and is prime
-        else {
-            return true;
-        }
     }
+    // no divisors found and is prime
+    return true;
 }
 
 /*
@@ -168,13 +165,10 @@ bool HashTable::isPrime(int num) {
     Description: Increments num up one until it's a new prime number
 */
 int HashTable::nextPrime(int num) {
-    while (!isPrime) {
+    while (!isPrime(num)) {
         num = num + 1;
-        bool newPrime = isPrime(num);
-        if (newPrime) {
-            return num;
-        }
     }
+    return num;
 }
 
 /*
@@ -208,6 +202,10 @@ int main() {
     HashTable ht;
     int loop = 1;
     int choice;
+    int result;
+    string key;
+    int value;
+    bool worked;
     
     while (loop == 1) {
         cout << "Please select your operation: \n";
@@ -215,16 +213,36 @@ int main() {
         cin >> choice;
 
         if (choice == 1) {
-
+            cout << "\nEnter key: ";
+            cin >> key;
+            cout << "\nEnter value: ";
+            cin >> value;
+            ht.put(key, value);
         }
         else if (choice == 2) {
-
+            cout << "\nEnter key: ";
+            cin >> key;
+            result = ht.getValue(key);
+            if (result == -1) {
+                cout << "\nKey not found.";
+            }
+            else {
+                cout << "\nValue: " << result;
+            }
         }
         else if (choice == 3) {
-
+            cout << "\nEnter key: ";
+            cin >> key;
+            worked = ht.removeKey(key);
+            if (worked) {
+                cout << "\nRemoved.";
+            }
+            else {
+                cout << "\nKey not found.";
+            }
         }
         else if (choice == 4) {
-
+            ht.printTable();
         }
         else if (choice == 5) {
             break;
