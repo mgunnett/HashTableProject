@@ -177,8 +177,31 @@ int HashTable::nextPrime(int num) {
     }
 }
 
+/*
+    Name: resize
+    Param: N/A
+    Returns: N/a
+    Description: Makes the table bigger when it gets 75% full, then re-inserts
+                all of the entries.
+*/
 void HashTable::resize() {
+    // save old table and old capacity just incase
+    vector<vector<Entry>> oldTable = table;
+    size_t oldCapacity = capacity;
+    
+    // build new bigger table
+    capacity = nextPrime(capacity * 2);
+    table = vector<vector<Entry>>(capacity);
+    count = 0; // set to 0 because put() will recount
 
+    // go through every slot in the old table
+    for (int i = 0; i <= oldCapacity - 1; i++) {
+        // go through every entry in each chain
+        for (int j = 0; j < oldTable[i].size(); j++) {
+            // re-insert into new bigger table
+            put(oldTable[i][j].key, oldTable[i][j].value);
+        }
+    }
 }
 
 int main() {
