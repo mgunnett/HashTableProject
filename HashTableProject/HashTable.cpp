@@ -137,8 +137,28 @@ void HashTable::printTable() {
     }
 }
 
+/*
+    Name: isPrime
+    Param: num
+    Returns: false if number is < 2 or has a divisor, and true if no divisors
+            and greater than 2.
+    Description: Checks if a number is prime. Divides every number from 2 to the sqrt
+*/
 bool HashTable::isPrime(int num) {
-
+   // if the number is less than 2 it's automatically not prime
+    if (num < 2) {
+        return false;
+    }
+    for (int i = 2; i <= sqrt(num); i++) {
+        // found a divisor and is not prime
+        if (num % i == 0) {
+            return false;
+        }
+        // no divisors found and is prime
+        else {
+            return true;
+        }
+    }
 }
 
 int HashTable::nextPrime(int num) {
