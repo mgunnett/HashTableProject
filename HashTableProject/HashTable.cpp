@@ -29,7 +29,7 @@ private:
     size_t capacity;
 };
 
-// constructor for private variables
+// constructor for private variables because we annoyingly need it
 HashTable::HashTable(size_t capacity) {
     this->capacity = capacity;
     this->count = 0;
@@ -161,8 +161,20 @@ bool HashTable::isPrime(int num) {
     }
 }
 
+/*
+    Name: nextPrime
+    Param: num
+    Returns: num IF prime
+    Description: Increments num up one until it's a new prime number
+*/
 int HashTable::nextPrime(int num) {
-
+    while (!isPrime) {
+        num = num + 1;
+        bool newPrime = isPrime(num);
+        if (newPrime) {
+            return num;
+        }
+    }
 }
 
 void HashTable::resize() {
