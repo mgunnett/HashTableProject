@@ -13,13 +13,14 @@ struct Entry {
 class HashTable {
 public:
     HashTable(size_t capacity = 11);
-    void put(string key, int value);
-    int getValue(string key);
+    void insertValue(string key, int value);
+    int searchValue(string key);
     bool removeKey(string key);
     void printTable();
     bool isPrime(int num);
     int nextPrime(int num);
     void resize();
+    bool debug;
 
 private:
     vector<vector<Entry>> table;
@@ -33,6 +34,7 @@ HashTable::HashTable(size_t capacity) {
     this->capacity = capacity;
     this->count = 0;
     this->table = vector<vector<Entry>>(capacity);
+    this->debug = false;
 }
 
 size_t HashTable::hashKey(string key) {
@@ -45,15 +47,16 @@ size_t HashTable::hashKey(string key) {
 }
 
 /*
-    Name: put
+    Name: insertValue
     Param: key, value
     Returns: n/a
     Description: Checks to see if a key already exists (if it does it updates
             it's value.) If the key is new it adds it to the table.
 */
-void HashTable::put(string key, int value) {
+void HashTable::insertValue(string key, int value) {
     // runs key through hash function to get index
     int index = hashKey(key);
+    if (debug) cout << "\nHashing '" << key << "' --> index " << index;
 
     // checks to see if the key already exists
     for (int i = 0; i < table[index].size(); i++) {
@@ -63,33 +66,40 @@ void HashTable::put(string key, int value) {
        }
     }
 
+    if (debug && !table[index].empty()) cout << "\nCollision at index " << index << ". Chaining.";
+
     // pushes the new key onto the chain at that index + 1
     table[index].push_back({ key, value });
     count++;
+    if (debug) cout << "\nInserted. Count is now " << count;
 
     // check if we are at 3/4 capacity and need to resize
     if ((float)count / capacity >= 0.75) {
+        if (debug) cout << "\nLoad factor exceeded 0.75, resizing...";
         resize();
     }
 }
 
 /*
-    Name: getValue
+    Name: searchValue
     Param: key
     Returns: value of found key, -1 if not found
     Description: Looks up a key in the hashtable and returns it's value
 */
-int HashTable::getValue(string key) {
+int HashTable::searchValue(string key) {
     // runs key through hash function to getValue index
     int index = hashKey(key);
+    if (debug) cout << "\nSearching for '" << key << "' at index " << index;
 
     // checks to see if the key already exists
     for (int i = 0; i < table[index].size(); i++) {
         if (table[index][i].key == key) {
+            if (debug) cout << "\nFound '" << key << "' = " << table[index][i].value;
             return table[index][i].value;
         }
     }
 
+    if (debug) cout << "\nKey not found.";
     return -1; // only runs if nothing was found
 }
 
@@ -102,6 +112,7 @@ int HashTable::getValue(string key) {
 bool HashTable::removeKey(string key) {
     // runs key through hash function to get index
     int index = hashKey(key);
+    if (debug) cout << "\nTrying to remove '" << key << "' at index " << index;
     
     // finds value at index and deletes it
     for (int i = 0; i < table[index].size(); i++) {
@@ -109,10 +120,12 @@ bool HashTable::removeKey(string key) {
             // deletes entry at position i from the chain
             table[index].erase(table[index].begin() + i);
             count--;
+            if (debug) cout << "\nRemoved '" << key << "'. Count is now " << count;
             return true;
         }
     }
-
+    
+    if (debug) cout << "\nKey not found, nothing removed.";
     return false; // only returns if never found key
 }
 
@@ -185,6 +198,7 @@ void HashTable::resize() {
     
     // build new bigger table
     capacity = nextPrime(capacity * 2);
+    if (debug) cout << "\nResizing from " << oldCapacity << " to " << capacity;
     table = vector<vector<Entry>>(capacity);
     count = 0; // set to 0 because put() will recount
 
@@ -192,8 +206,9 @@ void HashTable::resize() {
     for (int i = 0; i <= oldCapacity - 1; i++) {
         // go through every entry in each chain
         for (int j = 0; j < oldTable[i].size(); j++) {
+            if (debug) cout << "\nRe-inserting '" << oldTable[i][j].key << "'";
             // re-insert into new bigger table
-            put(oldTable[i][j].key, oldTable[i][j].value);
+            insertValue(oldTable[i][j].key, oldTable[i][j].value);
         }
     }
 }
@@ -206,6 +221,14 @@ int main() {
     string key;
     int value;
     bool worked;
+
+    cout << "Select mode: 1 = Regular ---------- 2 = Debug\n";
+    cin >> choice;
+    if (choice == 2) {
+        ht.debug = true;
+    }
+    // reset choice
+    choice = 0;
     
     while (loop == 1) {
         cout << "Please select your operation: \n";
@@ -217,12 +240,12 @@ int main() {
             cin >> key;
             cout << "\nEnter value: ";
             cin >> value;
-            ht.put(key, value);
+            ht.insertValue(key, value);
         }
         else if (choice == 2) {
             cout << "\nEnter key: ";
             cin >> key;
-            result = ht.getValue(key);
+            result = ht.searchValue(key);
             if (result == -1) {
                 cout << "\nKey not found.";
             }
