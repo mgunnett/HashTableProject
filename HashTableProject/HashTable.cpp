@@ -140,7 +140,7 @@ void HashTable::printTable() {
     for (int i = 0; i <= capacity - 1; i++) {
         // check to make sure table isn't empty 
         if (!table[i].empty()) {
-            cout << "Index " << i << "\n";
+            cout << "\nIndex " << i << "\n";
             // goes through the chain
             for (int j = 0; j < table[i].size(); j++) {
                 cout << table[i][j].key << " --> " << table[i][j].value << "\n";
@@ -198,7 +198,7 @@ void HashTable::resize() {
     
     // build new bigger table
     capacity = nextPrime(capacity * 2);
-    if (debug) cout << "\nResizing from " << oldCapacity << " to " << capacity;
+    if (debug) cout << "\nResizing from " << oldCapacity << " to " << capacity << "\n";
     table = vector<vector<Entry>>(capacity);
     count = 0; // set to 0 because put() will recount
 
@@ -206,7 +206,7 @@ void HashTable::resize() {
     for (int i = 0; i <= oldCapacity - 1; i++) {
         // go through every entry in each chain
         for (int j = 0; j < oldTable[i].size(); j++) {
-            if (debug) cout << "\nRe-inserting '" << oldTable[i][j].key << "'";
+            if (debug) cout << "\nRe-inserting '" << oldTable[i][j].key << "'\n";
             // re-insert into new bigger table
             insertValue(oldTable[i][j].key, oldTable[i][j].value);
         }
@@ -220,7 +220,7 @@ int main() {
     int result;
     string key;
     int value;
-    bool worked;
+    bool worked; 
 
     cout << "Select mode: 1 = Regular ---------- 2 = Debug\n";
     cin >> choice;
@@ -231,8 +231,8 @@ int main() {
     choice = 0;
     
     while (loop == 1) {
-        cout << "Please select your operation: \n";
-        cout << "1 = Put  -------- 2 = Get -------- 3 = Remove -------- 4 = Print -------- 5 = Quit\n";
+        cout << "\nPlease select your operation: \n";
+        cout << "\n1 = Insert/Update  -------- 2 = Search -------- 3 = Remove -------- 4 = Print -------- 5 = Quit\n";
         cin >> choice;
 
         if (choice == 1) {
